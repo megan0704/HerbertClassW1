@@ -12,6 +12,43 @@ function setup() {
   background(255);
 
   grid();
+
+  for (let i=0; i<4; i++){
+    circleBlocks(int(random(5)),int(random(5))); //arguments define XY starting position
+  }
+
+}
+
+function circleBlocks(xTimes, yTimes){
+  let xRand = int(random(width/gridStep));
+  let yRand = int(random(height/gridStep));
+  let xPos = xRand*gridStep;
+  let yPos = yRand*gridStep;
+
+  let angle = 45;
+
+  push();
+  translate(xPos, yPos);
+  let colorCircle = colorArray[int(random(5))];
+  for (let y = 10; y < xTimes*gridStep; y+=gridStep) {
+    for (let x = 10; x < yTimes*gridStep; x+=gridStep) {
+      push(); //apply this at the beginning of the transformation
+      translate(x, y); //assign here the shape position
+      noFill();
+      stroke(colorCircle);
+      strokeWeight(3);
+      ellipse(0, 0, 15, 15); //position is driven by translate()
+      noStroke();
+      fill(colorCircle);
+      ellipse(0, 0, 5, 5); //position is driven by translate()
+      pop();
+    }
+  }
+  pop();
+}
+
+function mouseClicked(){
+  setup();
 }
 
 function grid(){
@@ -50,5 +87,13 @@ function grid(){
 function keyPressed() {
   if (key == 'd' || key == 'D'){
     grid();
+  }
+}
+
+function keyPressed() {
+  if (key == 's' || key == 'S'){
+    for (let i=0; i<4; i++){
+      circleBlocks(int(random(5)),int(random(5)));
+    }
   }
 }
