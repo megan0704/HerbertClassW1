@@ -1,99 +1,69 @@
-//Create an array with HEX values that represent colors
-let colorArray = ["#ED7A8E", "#7D43FE", "#132BA8","#000000", "#FFFFFF"];
-
-//Grid is split into steps of 20. This variable is used throughout,
-//to ensure consistency
-let gridStep = 20;
+var beginX = 20.0; // Initial x-coordinate
+var beginY = 10.0; // Initial y-coordinate
+var endX = 570.0; // Final x-coordinate
+var endY = 320.0; // Final y-coordinate
+var distX; // X-axis distance to move
+var distY; // Y-axis distance to move
+var exponent = 4; // Determines the curve
+var x = 0.0; // Current x-coordinate
+var y = 0.0; // Current y-coordinate
+var step = 0.01; // Size of each step along the path
+var pct = 0.0; // Percentage traveled (0.0 to 1.0)
 
 function setup() {
-  noLoop(); //Program renders only once - when setup executes (also in Events - i.e. key, mouse clicks)
-  rectMode(CENTER); //drawing point for rect() is center
-  createCanvas(800, 800); //size of the canvas
-  background(255);
+  createCanvas(800, 400);
+  noStroke();
+  distX = endX - beginX;
+  distY = endY - beginY;
 
-  grid();
 
-  for (let i=0; i<4; i++){
-    circleBlocks(int(random(5)),int(random(5))); //arguments define XY starting position
-  }
+}
+function mousePressed() {
+  fill(220);
+
+
+  rect(200,200,50,50);
+  triangle(random(600,800), random(0, 100),random(600,800), random(100,200),random(400,600), random(200,300));
+
+ /* pct = 0.0;
+ beginX = x;
+ beginY = y;
+ endX = mouseX;
+ endY = mouseY;
+ distX = endX - beginX;
+ distY = endY - beginY; */
+}
+
+function draw() {
+   fill(0,2);
+
+   rect(0, 0, width, height);
+
+   pct += step;
+   if (pct < 1.0) {
+     x = beginX + pct * distX;
+     y = beginY + pow(pct, exponent) * distY;
+   }
+   fill(255, 0, 0);
+   ellipse(x, y, 20, 20);
 
 }
 
-function circleBlocks(xTimes, yTimes){
-  let xRand = int(random(width/gridStep));
-  let yRand = int(random(height/gridStep));
-  let xPos = xRand*gridStep;
-  let yPos = yRand*gridStep;
-
-  let angle = 45;
-
-  push();
-  translate(xPos, yPos);
-  let colorCircle = colorArray[int(random(5))];
-  for (let y = 10; y < xTimes*gridStep; y+=gridStep) {
-    for (let x = 10; x < yTimes*gridStep; x+=gridStep) {
-      push(); //apply this at the beginning of the transformation
-      translate(x, y); //assign here the shape position
-      noFill();
-      stroke(colorCircle);
-      strokeWeight(3);
-      ellipse(0, 0, 15, 15); //position is driven by translate()
-      noStroke();
-      fill(colorCircle);
-      ellipse(0, 0, 5, 5); //position is driven by translate()
-      pop();
-    }
-  }
-  pop();
-}
-
-function mouseClicked(){
-  setup();
-}
-
-function grid(){
-  let size = 2;
-  let stepX = 0;
-
-  for (let y = 10; y < width; y+=gridStep) {
-    for (let x = 10; x < height; x+=gridStep) {
-      //stroke(255,0,0);
-      //strokeWeight(1);
-      let randomStep = int(random(width/gridStep));
-
-      if (x == 10) stepX = 0;
-      else stepX = stepX + 1;
-
-      if (randomStep == stepX){
-        stroke(0);
-        let newSizeStroke = int(random(20));
-        strokeWeight(newSizeStroke/10);
-        noFill();
-        ellipse(x, y, newSizeStroke, newSizeStroke);
-        noStroke();
-        fill(0);
-        let newSize = int(random(12));
-        ellipse(x, y, newSize, newSize);
-      } else {
-        noStroke();
-        fill(0);
-        ellipse(x, y, size, size);
-      }
-    }
-  }
-}
-
-//Use keys A,S,D to draw additional shapes according to the functions we have
-function keyPressed() {
-  if (key == 'd' || key == 'D'){
-    grid();
-  }
-}
-
-function keyPressed() {
+/*function keyPressed() {
   if (key == 's' || key == 'S'){
-    for (let i=0; i<4; i++){
-      circleBlocks(int(random(5)),int(random(5)));
-    }
+    fill(220);
+    noStroke();
+
+    triangle(random(600,800), random(0, 100),random(600,800), random(100,200),random(400,600), random(200,300));
   }
-}
+
+  if (key == 'd' || key == 'D'){
+    fill(220);
+    noStroke();
+
+    triangle(random(400,200), random(0, height/2),random(0,width/2), random(0, height/2),random(0,width/2), random(0, height/2));
+  }
+
+
+
+}*/
