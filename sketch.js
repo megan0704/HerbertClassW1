@@ -1,69 +1,63 @@
-var beginX = 20.0; // Initial x-coordinate
-var beginY = 10.0; // Initial y-coordinate
-var endX = 570.0; // Final x-coordinate
-var endY = 320.0; // Final y-coordinate
-var distX; // X-axis distance to move
-var distY; // Y-axis distance to move
-var exponent = 4; // Determines the curve
-var x = 0.0; // Current x-coordinate
-var y = 0.0; // Current y-coordinate
-var step = 0.01; // Size of each step along the path
-var pct = 0.0; // Percentage traveled (0.0 to 1.0)
 
-function setup() {
-  createCanvas(800, 400);
-  noStroke();
-  distX = endX - beginX;
-  distY = endY - beginY;
-
-
-}
-function mousePressed() {
-  fill(220);
-
-
-  rect(200,200,50,50);
-  triangle(random(600,800), random(0, 100),random(600,800), random(100,200),random(400,600), random(200,300));
-
- /* pct = 0.0;
- beginX = x;
- beginY = y;
- endX = mouseX;
- endY = mouseY;
- distX = endX - beginX;
- distY = endY - beginY; */
+// 把数值限制在 low 和 high 之间。
+function minmax(value, low, high) {
+	return Math.max(low, Math.min(high, value));
 }
 
-function draw() {
-   fill(0,2);
 
-   rect(0, 0, width, height);
 
-   pct += step;
-   if (pct < 1.0) {
-     x = beginX + pct * distX;
-     y = beginY + pow(pct, exponent) * distY;
-   }
-   fill(255, 0, 0);
-   ellipse(x, y, 20, 20);
+// 程序会不停呼叫 tick() 方法
+// 通过 Tracker.keypoints 获得最新的关节位置
+function tick() {
+	if (!Tracker.keypoints)
+		return;
+
+	var pos, 	// 用于暂时记录关节位置
+	 v, 		// 用于暂时计算数值
+		note,   // 需要播放的音符
+		vol;    // 音量
+
+	// 右手，控制音符
+	pos = Tracker.keypoints[10].position;		// 获得右手手腕的关节位置
+  console.log(pos); 
+
+	// v = pos.x / 300;							// 用 300 像素为范围，转成 0..1
+	// v = minmax(v, 0, 1);
+	// v = 1 - v;									// 左右反转
+	// v = v * (notes.length-1);                   // 把 0..1 转成 0..6
+	// v = Math.floor(v);							// 转成整数
+	// note = notes[v];                            // 通过数组获得音符
+
+	//
+	if (note != lastNote)
+	{
+		// console.log(note + " : " + 1);
+		playNote(note, 1);
+	}
 
 }
 
-/*function keyPressed() {
-  if (key == 's' || key == 'S'){
-    fill(220);
-    noStroke();
+init();
+Tracker.init();
 
-    triangle(random(600,800), random(0, 100),random(600,800), random(100,200),random(400,600), random(200,300));
-  }
-
-  if (key == 'd' || key == 'D'){
-    fill(220);
-    noStroke();
-
-    triangle(random(400,200), random(0, height/2),random(0,width/2), random(0, height/2),random(0,width/2), random(0, height/2));
-  }
-
-
-
-}*/
+/*
+	骨架参考
+	keypoints:
+		0: part: "nose"position: {x: 426.7225681992828, y: 256.86738602237995}score: 0.9971339702606201
+		1: {score: 0.9989068508148193, part: "leftEye", position: {…}}
+		2: {score: 0.9753614664077759, part: "rightEye", position: {…}}
+		3: {score: 0.7871300578117371, part: "leftEar", position: {…}}
+		4: {score: 0.8322078585624695, part: "rightEar", position: {…}}
+		5: {score: 0.6282164454460144, part: "leftShoulder", position: {…}}
+		6: {score: 0.6300492286682129, part: "rightShoulder", position: {…}}
+		7: {score: 0.00581593532115221, part: "leftElbow", position: {…}}
+		8: {score: 0.0025956574827432632, part: "rightElbow", position: {…}}
+*		9: {score: 0.0024121105670928955, part: "leftWrist", position: {…}}
+*		10: {score: 0.00001784728010534309, part: "rightWrist", position: {…}}
+		11: {score: 0.0033176958095282316, part: "leftHip", position: {…}}
+		12: {score: 0.001991894794628024, part: "rightHip", position: {…}}
+		13: {score: 0.0015825496520847082, part: "leftKnee", position: {…}}
+		14: {score: 0.0015691817970946431, part: "rightKnee", position: {…}}
+		15: {score: 0.0010207036975771189, part: "leftAnkle", position: {…}}
+		16: {score: 0.00017944669525604695, part: "rightAnkle", position: {…}}
+*/
