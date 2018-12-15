@@ -32,7 +32,7 @@
 var x=200;
 var y=200
 var r=50;
-PImage myImg;
+
 
 function setup() {
   createCanvas(800, 800);
@@ -41,7 +41,6 @@ function setup() {
    frameRate(100);
    smooth();
 
-	  myImg = loadImage("pen2.png");
 }
 
 function draw() {
@@ -51,11 +50,9 @@ function draw() {
   if(mouseIsPressed &&dist(mouseX,mouseY,x,y)<r){
   	x=mouseX;
     y=mouseY;
-    image(myImg, x, y, 30, 30);
-	// 	noStroke();  //lineweight);
-	//   fill(350, 250, 250 );
-	// ellipse(x,y, 30, 30) ;
+    // image(myImg, x, y, 30, 30);
+		noStroke();  //lineweight);
+	  fill(350, 250, 250 );
+	ellipse(x,y, 30, 30) ;
   }
-
 }
-//
