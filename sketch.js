@@ -48,7 +48,7 @@ function draw() {
 
 	fill(0,5);
 		rect(0, 0, 1000, 1000);
-  if(mouseIsPressed){
+  if(mouseIsPressed &&dist(mouseX,mouseY,x,y)<r){
   	x=mouseX;
     y=mouseY;
     image(myImg, x, y, 30, 30);
@@ -58,4 +58,4 @@ function draw() {
   }
 
 }
-// &&dist(mouseX,mouseY,x,y)<r
+//
