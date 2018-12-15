@@ -1,7 +1,7 @@
 
 // let gap = 70;
-// let x1 = mouseX;
-// let y1 = mouseY;
+var x = mouseX;
+var y = mouseY;
 
 function setup() {
   createCanvas(1000, 1000);
@@ -17,7 +17,7 @@ function draw() {
 	rect(0, 0, 1000, 1000);
 	noStroke();
 	fill(350, 250, 250);
-	ellipse(mouseX, mouseY 30, 30);
+	ellipse(x, y, 30, 30);
 
 }
 
